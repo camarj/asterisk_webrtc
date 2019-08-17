@@ -1,0 +1,76 @@
+    1  apt-get update
+    3  apt-get install linux-headers-`uname -r` build-essential libncurses-dev libncurses5-dev libxml2-dev libsqlite3-dev libssl-dev libsrtp0-dev uuid-dev libnewt-dev doxygen subversion libmysqlclient-dev unixodbc-dev libmyodbc
+    4  apt-get install autoconf
+    5  apt-get install pkg-config
+    6  cd /usr/src/
+    7  wget http://downloads.asterisk.org/pub/telephony/libpri/old/libpri-1.4.14.tar.gz
+    8  wget http://downloads.asterisk.org/pub/telephony/dahdi-linux-complete/dahdi-linux-complete-current.tar.gz
+    9  wget http://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-11.25.0.tar.gz
+   10  tar zxvf asterisk-11.25.0.tar.gz
+   11  ls
+   12  cd /usr/src/asterisk*
+   13  cd contrib/scripts/
+   14  ./install_prereq install
+   15  ./install_prereq install-unpackaged
+   20  tar zxvf libpri-1.4.14.tar.gz
+   21  cd libpri-1.4.14/
+   22  make && make install
+   23  cd ..
+   24  ls
+   25  tar zxvf dahdi-linux-complete-current.tar.gz
+   26  ls
+   27  cd dahdi-linux-complete-3.0.0+3.0.0/
+   33  make && make install && make config
+   34  cd ..
+   35  ls
+   36  cd libpri-1.4.14/
+   37  ls
+   38  make && make install
+   39  cd ..
+   40  cd asterisk-11.25.0/
+   41  cd contrib/scripts/
+   42  ./install_prereq install-unpackaged
+   43  cd ..
+   45  ./configure
+   46  make menuselect
+   47  make && make install && make samples
+   48  service dahdi start
+   49  service asterisk start
+   50  systemctl satart asterisk
+   51  systemctl start asterisk
+   52  systemctl start asterisk.service
+   53  make menuselect
+   74  mkdir /etc/asterisk/keys
+   75  cd /etc/asterisk/keys
+   76  cd ..
+   77  cd /usr/src/asterisk-11.25.0/contrib/scripts/
+   78  ./ast_tls_cert -C pbx.prueba.com -O "Prueba" -d /etc/asterisk/keys
+   79  cd ..
+   84  cd /etc/asterisk/cd key
+   85  cd /etc/asterisk/keys/
+   91  mv http.conf http.old.conf 
+   92  nano http.conf 
+   97  cd /etc/asterisk/
+   98  mv sip.conf sip.old.conf
+   99  nano sip.conf
+  104  mv extensions.conf extensions.old.conf
+  105  ls
+  106  nano extensions.conf
+  108  apt-get install git
+  109  cd /var/www/html/
+  110  git clone https://github.com/DoubangoTelecom/sipml5.git
+  115  cd /etc/asterisk/
+  116  cd keys/
+  117  ls
+  118  mkdir http
+  119  cd http/
+  120  openssl req -new -x509 -days 365 -nodes -out pruebapbx.pem -keyout pruebapbx.pem
+  135  nano /etc/apache2/sites-available/default-ssl
+  136  cd /etc/apache2/
+  137  ls
+  138  cd sites-available/
+  139  ls
+  140  nano default-ssl.conf
+  141  a2enmod ssl
+  142  a2ensite default-ssl
+  143  service apache2 restart
